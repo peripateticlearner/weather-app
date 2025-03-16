@@ -9,16 +9,21 @@ const WeatherApp = () => {
   // Get API key from .env file
   const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
+  const [error, setError] = useState(null);
+
   const fetchWeather = async () => {
     if (!city) return;
+    setError(null);
     try {
       const response = await axios.get(
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
       );
       setWeather(response.data);
+      
     } catch (error) {
       console.error("Error fetching weather:", error);
       setWeather(null);
+      setError("City not found. Try again.");
     }
   };
 
