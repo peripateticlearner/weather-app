@@ -8,13 +8,16 @@ const WeatherApp = () => {
   const [zip, setZip] = useState("");
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState(null);
-  const [unit, setUnit] = useState("imperial"); // Default to Fahrenheit
+  const [unit, setUnit] = useState("imperial"); 
+  const [loading, setLoading] = useState(false); 
 
-  // Get API key from .env file
+  // API Key from .env file
   const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
   const fetchWeather = async () => {
     setError(null);
+    setWeather(null); // Clear previous weather data
+    setLoading(true);
 
     let url = "";
 
@@ -23,7 +26,8 @@ const WeatherApp = () => {
     } else if (city && country) {
       url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=${unit}`;
     } else {
-      setError("Please enter either city & country or zip code.");
+      setError("Please enter either city & country or ZIP code.");
+      setLoading(false);
       return;
     }
 
@@ -35,6 +39,8 @@ const WeatherApp = () => {
       setWeather(null);
       setError("Location not found. Try again.");
     }
+
+    setLoading(false);
   };
 
   // Toggle Temperature Units
@@ -46,35 +52,45 @@ const WeatherApp = () => {
     <div className="container">
       <h1>Weather App</h1>
 
+      {/* Display error message above weather info */}
+      {error && <p className="error">{error}</p>}
+
       <input
         type="text"
         placeholder="Enter city"
         value={city}
-        onChange={(e) => setCity(e.target.value)}
-        disabled={zip !== ""}
+        onChange={(e) => {
+          setCity(e.target.value);
+          setZip(""); // Clear ZIP when typing city
+        }}
+        disabled={zip !== "" || loading}
       />
       <input
         type="text"
         placeholder="Enter country (e.g., US, GB, IN)"
         value={country}
         onChange={(e) => setCountry(e.target.value)}
+        disabled={loading}
       />
       <input
         type="text"
         placeholder="Enter ZIP code"
         value={zip}
-        onChange={(e) => setZip(e.target.value)}
-        disabled={city !== ""}
+        onChange={(e) => {
+          setZip(e.target.value);
+          setCity(""); // Clear city when typing ZIP
+        }}
+        disabled={city !== "" || loading}
       />
 
-      <button onClick={fetchWeather}>Get Weather</button>
-
-      {/* Toggle Button for Fahrenheit/Celsius */}
-      <button className="toggle-btn" onClick={toggleUnit}>
-        Switch to {unit === "imperial" ? "Celsius (°C)" : "Fahrenheit (°F)"}
+      <button onClick={fetchWeather} disabled={loading}>
+        {loading ? "Fetching..." : "Get Weather"}
       </button>
 
-      {error && <p className="error">{error}</p>}
+      {/* Toggle Button for Fahrenheit/Celsius */}
+      <button className="toggle-btn" onClick={toggleUnit} disabled={loading}>
+        Switch to {unit === "imperial" ? "Celsius (°C)" : "Fahrenheit (°F)"}
+      </button>
 
       {weather && (
         <div className="weather-info">

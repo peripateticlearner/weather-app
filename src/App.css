@@ -1,69 +1,99 @@
+/* ===== Global Styles ===== */
+/* Permanent dark background with white text for contrast */
 body {
   font-family: Arial, sans-serif;
-  background: #f4f4f4;
+  background: #222; /* Dark background */
+  color: white;
   text-align: center;
   margin: 0;
 }
 
+/* ===== Main Container ===== */
+/* White container for contrast against dark background */
 .container {
   max-width: 400px;
-  margin: 50px auto;
+  margin: 50px auto; /* Center the container */
   padding: 20px;
-  background: white;
+  background: white; 
+  color: black; 
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1); 
 }
 
+/* ===== Input Fields ===== */
 input {
   width: 75%;
   padding: 10px;
   margin: 5px 0;
-  border: 1px solid #ccc;
+  border: 1px solid #555; 
   border-radius: 5px;
+  background: #f4f4f4; 
+  color: black; 
 }
 
+/* Add spacing for the first input */
 input:first-of-type {
   margin-top: 10px;
 }
 
+/* Disabled input styling */
 input:disabled {
-  background: #e0e0e0;
+  background: #ddd;
   cursor: not-allowed;
+  color: gray;
 }
 
+/* ===== Button Styles ===== */
 button {
   padding: 10px 20px;
   margin: 5px;
-  background: #007bff;
+  background: #007bff; 
   color: white;
   border: none;
   cursor: pointer;
   border-radius: 5px;
 }
 
-button:hover {
+/* Disabled button styling */
+button:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+/* Change button color on hover when enabled */
+button:hover:enabled {
   background: #0056b3;
 }
 
+/* ===== Toggle Button (Fahrenheit/Celsius) ===== */
 .toggle-btn {
   margin-top: 10px;
   padding: 10px;
-  background: #28a745;
+  background: #28a745; 
   color: white;
   border: none;
   cursor: pointer;
   border-radius: 5px;
 }
 
-.toggle-btn:hover {
+/* Hover effect for toggle button */
+.toggle-btn:hover:enabled {
   background: #218838;
 }
 
+/* ===== Weather Info Box ===== */
+/* Style for displaying weather data */
 .weather-info {
   margin-top: 20px;
+  padding: 10px;
+  background: #f8f9fa; 
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* ===== Error Message ===== */
 .error {
   color: red;
   margin-top: 10px;
+  font-weight: bold;
 }
